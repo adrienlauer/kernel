@@ -29,16 +29,16 @@ import java.util.function.Predicate;
 public class InitContextInternal implements InitContext
 {
     private final Map<String, String> kernelParams;
-    private final RequestHandler requestHandler;
+    private final ScanResults scanResults;
     private final int roundNumber;
     private final DependencyProvider dependencyProvider;
     private final Class<? extends Plugin> pluginClass;
 
-    public InitContextInternal(Map<String, String> kernelParams, RequestHandler requestHandler, int roundNumber,
+    public InitContextInternal(Map<String, String> kernelParams, ScanResults scanResults, int roundNumber,
                                DependencyProvider dependencyProvider, Class<? extends Plugin> pluginClass)
     {
         this.kernelParams = kernelParams;
-        this.requestHandler = requestHandler;
+        this.scanResults = scanResults;
         this.roundNumber = roundNumber;
         this.dependencyProvider = dependencyProvider;
         this.pluginClass = pluginClass;
@@ -65,73 +65,73 @@ public class InitContextInternal implements InitContext
     @Override
     public Map<Class<?>, Collection<Class<?>>> scannedSubTypesByParentClass()
     {
-        return requestHandler.scannedSubTypesByParentClass();
+        return scanResults.scannedSubTypesByParentClass();
     }
 
     @Override
     public Map<String, Collection<Class<?>>> scannedSubTypesByParentRegex()
     {
-        return requestHandler.scannedSubTypesByParentRegex();
+        return scanResults.scannedSubTypesByParentRegex();
     }
 
     @Override
     public Map<String, Collection<Class<?>>> scannedTypesByRegex()
     {
-        return requestHandler.scannedTypesByRegex();
+        return scanResults.scannedTypesByRegex();
     }
 
     @Override
     public Map<Predicate<Class<?>>, Collection<Class<?>>> scannedTypesByPredicate()
     {
-        return requestHandler.scannedTypesByPredicate();
+        return scanResults.scannedTypesByPredicate();
     }
 
     @Override
     public Map<Class<? extends Annotation>, Collection<Class<?>>> scannedClassesByAnnotationClass()
     {
-        return requestHandler.scannedClassesByAnnotationClass();
+        return scanResults.scannedClassesByAnnotationClass();
     }
 
     @Override
     public Map<String, Collection<Class<?>>> scannedClassesByAnnotationRegex()
     {
-        return requestHandler.scannedClassesByAnnotationRegex();
+        return scanResults.scannedClassesByAnnotationRegex();
     }
 
     @Override
     public Map<String, Collection<String>> mapPropertiesFilesByPrefix()
     {
-        return requestHandler.getPropertiesFilesByPrefix();
+        return scanResults.getPropertiesFilesByPrefix();
     }
 
     @Override
     public Map<String, Collection<String>> mapResourcesByRegex()
     {
-        return requestHandler.getResourcesByRegex();
+        return scanResults.getResourcesByRegex();
     }
 
     @Override
     public Collection<Class<?>> classesToBind()
     {
-        return requestHandler.getClassesToBind();
+        return scanResults.getClassesToBind();
     }
 
     @Override
     public List<UnitModule> moduleResults()
     {
-        return requestHandler.getModules();
+        return scanResults.getModules();
     }
 
     @Override
     public List<UnitModule> moduleOverridingResults()
     {
-        return requestHandler.getOverridingModules();
+        return scanResults.getOverridingModules();
     }
 
     @Override
     public Collection<String> propertiesFiles()
     {
-        return requestHandler.getPropertyFiles();
+        return scanResults.getPropertyFiles();
     }
 
     @Override

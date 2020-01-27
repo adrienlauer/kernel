@@ -78,35 +78,35 @@ public class RequestHandler extends ScanResults
             "\n" +
             "========================================================================";
 
-    private final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
+    private transient final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-    private final List<String> propertiesPrefix = new ArrayList<>();
-    private final List<Class<?>> parentTypesClassesToScan = new ArrayList<>();
-    private final List<Class<?>> ancestorTypesClassesToScan = new ArrayList<>();
-    private final List<Predicate<Class<?>>> predicatesToScan = new ArrayList<>();
-    private final List<String> typesRegexToScan = new ArrayList<>();
-    private final List<String> resourcesRegexToScan = new ArrayList<>();
-    private final List<String> parentTypesRegexToScan = new ArrayList<>();
-    private final List<Class<? extends Annotation>> annotationTypesToScan = new ArrayList<>();
-    private final List<String> annotationRegexToScan = new ArrayList<>();
+    private transient final List<String> propertiesPrefix = new ArrayList<>();
+    private transient final List<Class<?>> parentTypesClassesToScan = new ArrayList<>();
+    private transient final List<Class<?>> ancestorTypesClassesToScan = new ArrayList<>();
+    private transient final List<Predicate<Class<?>>> predicatesToScan = new ArrayList<>();
+    private transient final List<String> typesRegexToScan = new ArrayList<>();
+    private transient final List<String> resourcesRegexToScan = new ArrayList<>();
+    private transient final List<String> parentTypesRegexToScan = new ArrayList<>();
+    private transient final List<Class<? extends Annotation>> annotationTypesToScan = new ArrayList<>();
+    private transient final List<String> annotationRegexToScan = new ArrayList<>();
 
-    private final List<Class<?>> parentTypesClassesToBind = new ArrayList<>();
-    private final List<Predicate<Class<?>>> predicatesToBind = new ArrayList<>();
-    private final List<String> parentTypesRegexToBind = new ArrayList<>();
-    private final List<Class<? extends Annotation>> annotationTypesToBind = new ArrayList<>();
-    private final List<Class<? extends Annotation>> metaAnnotationTypesToBind = new ArrayList<>();
-    private final List<String> annotationRegexToBind = new ArrayList<>();
-    private final List<String> metaAnnotationRegexToBind = new ArrayList<>();
+    private transient final List<Class<?>> parentTypesClassesToBind = new ArrayList<>();
+    private transient final List<Predicate<Class<?>>> predicatesToBind = new ArrayList<>();
+    private transient final List<String> parentTypesRegexToBind = new ArrayList<>();
+    private transient final List<Class<? extends Annotation>> annotationTypesToBind = new ArrayList<>();
+    private transient final List<Class<? extends Annotation>> metaAnnotationTypesToBind = new ArrayList<>();
+    private transient final List<String> annotationRegexToBind = new ArrayList<>();
+    private transient final List<String> metaAnnotationRegexToBind = new ArrayList<>();
 
-    private final Map<Class<?>, Object> classesWithScopes = new HashMap<>();
-    private final Map<Key, Object> mapOfScopes = new HashMap<>();
+    private transient final Map<Class<?>, Object> classesWithScopes = new HashMap<>();
+    private transient final Map<Key, Object> mapOfScopes = new HashMap<>();
 
-    private final List<String> packageRoots;
+    private transient final List<String> packageRoots;
 
-    private Set<URL> additionalClasspathScan;
-    private ClasspathStrategy classpathStrategy;
-    private ClasspathScanner classpathScanner;
-    private KernelOptions options;
+    private transient final Set<URL> additionalClasspathScan;
+    private transient final KernelOptions options;
+    private transient ClasspathStrategy classpathStrategy;
+    private transient ClasspathScanner classpathScanner;
 
     public RequestHandler(Map<String, String> kernelParams, KernelOptions options)
     {

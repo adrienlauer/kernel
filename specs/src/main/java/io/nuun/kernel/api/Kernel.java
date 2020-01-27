@@ -20,6 +20,9 @@ import io.nuun.kernel.api.di.GlobalModule;
 import io.nuun.kernel.api.di.ObjectGraph;
 import io.nuun.kernel.api.di.UnitModule;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
@@ -46,10 +49,19 @@ public interface Kernel
     /**
      * Tell the kernel to initialize. The kernel will load all the plugins and initialize them.
      * <p>
-     * Plugins will the create an intermediate UnitModule.
+     * Plugins will then create an intermediate UnitModule.
      * </p>
      */
     void init();
+
+    /**
+     * Tell the kernel to initialize from a saved state. The kernel will load all the plugins and initialize them with
+     * scan results from the saved state.
+     * <p>
+     * Plugins will then create an intermediate UnitModule.
+     * </p>
+     */
+    void initFromSavedState(InputStream is);
 
     /**
      * Indication on whether or not the kernel is initialized.
@@ -130,7 +142,13 @@ public interface Kernel
      */
     GlobalModule globalModule();
 
+    /**
+     * After the kernel is initialized, this method return the set of classpath URLs that have been scanned.
+     * @return the set of scanned URLs.
+     */
     Set<URL> scannedURLs();
+
+    void saveState(OutputStream os) throws IOException;
 
     /**
      * Tell the kernel to start. Then the kernel will create the ObjectGraph of the application. The ObjectGraph will wrap the actual Guice injector.

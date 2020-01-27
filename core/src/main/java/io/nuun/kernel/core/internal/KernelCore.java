@@ -39,14 +39,21 @@ import io.nuun.kernel.core.internal.injection.ModuleEmbedded;
 import io.nuun.kernel.core.internal.injection.ModuleHandler;
 import io.nuun.kernel.core.internal.injection.ObjectGraphEmbedded;
 import io.nuun.kernel.spi.DependencyInjectionProvider;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.ServiceLoader;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URL;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Epo Jemba
@@ -101,6 +108,27 @@ public final class KernelCore implements Kernel
         state = State.INITIALIZED;
         extensionManager.initialized();
     }
+
+    @Override
+    public void initFromSavedState(InputStream is)
+    {
+        if (isInitialized())
+        {
+            throw new KernelException("Kernel is already initialized");
+        }
+        preparePlugins();
+        validateMandatoryParams();
+        fetchPackageRootsFromConfiguration();
+        extensionManager = new ExtensionManager(pluginRegistry.getPlugins(), Thread.currentThread().getContextClassLoader());
+        extensionManager.initializing();
+        executeInitializationRounds();
+        createMainModule();
+        state = State.INITIALIZED;
+        extensionManager.initialized();
+
+    }
+
+    private void doInit()
 
     public void preparePlugins()
     {
@@ -419,5 +447,11 @@ public final class KernelCore implements Kernel
     public Set<URL> scannedURLs()
     {
         return requestHandler.getUrls();
+    }
+
+    @Override
+    public void saveState(OutputStream os) throws IOException {
+        JavaScanResultsRepository javaScanResultsRepository = new JavaScanResultsRepository();
+        javaScanResultsRepository.save(this.requestHandler, os);
     }
 }
